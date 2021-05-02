@@ -1,0 +1,132 @@
+<%
+  snippets = MagickPen::Snippet.includes(:versions).where(
+    ["(controller_name = ? and action_name = ?) || is_global = true", params[:controller], params[:action]]
+  )
+  contents = snippets.map {|snippet|
+    {
+      id: snippet.id,
+      pen_key: snippet.pen_key,
+      content: snippet.content,
+      versions: (snippet.versions.map { |v| (v.event == "create" || v.event == "update") ? { id:v.id, date: v.created_at} : nil }).compact
+    }
+  }
+%>
+
+<script>
+  var magickPenConfig = {
+    controller: '<%= params[:controller] %>',
+    action: '<%= params[:action] %>',
+    snippets: <%= raw contents.to_json %>,
+    editable: <%= defined?(editable) ? editable : false %>,
+    date_format: 'YYYY/MM/DD HH:mm',
+    select: {
+      class: 'magick-pen-select',
+      label: {
+        version: 'バーション',
+        original: 'オリジナル',
+        current: '最新'
+      }
+    },
+    buttons: {
+      edit: {
+        class: 'btn btn-primary button is-primary',
+        icon: 'fas fa-edit',
+        label: '編集'
+      },
+      update: {
+        class: 'btn btn-primary button is-primary',
+        icon: 'fas fa-upload',
+        label: '更新'
+      },
+      cancel: {
+        class: 'btn btn-secondary button is-light',
+        icon: 'fas fa-ban',
+        label: 'キャンセル'
+      },
+      preview: {
+        class: 'btn btn-primary button is-primary',
+        icon: 'fas fa-eye',
+        label: 'プレビュー'
+      }
+    },
+    updateSnippet: function (key, content, originalContent, completed) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '<%= magick_pen_snippet_path %>', true)
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState !== 4 || xhr.status !== 200) {
+        }
+        else {
+          var data = JSON.parse(xhr.responseText)
+          if (data.status === 200) {
+            var b = false
+            for( var i = 0 ; i < this.snippets.length ; i ++ ) {
+              if (this.snippets[i].id === data.snippet.id) {
+                this.snippets[i].versions = data.snippet.versions
+                b = true
+                if(completed) {
+                  completed(data.snippet)
+                }
+                break
+              }
+            }
+            if (!b) {
+              this.snippets.push(data.snippet)
+              if(completed) {
+                completed(data.snippet)
+              }
+            }
+          }
+        }
+      }.bind(this);
+
+      var data = new FormData()
+      data.append('authenticity_token', '<%= magick_pen_snippet_path %>')
+      data.append('magick_pen_snippet[pen_key]', key)
+      data.append('magick_pen_snippet[content]', content)
+      if (originalContent) {
+        data.append('magick_pen_snippet[original_content]', originalContent)
+      }
+      if (key.slice(0,2) === 'g-') {
+        data.append('magick_pen_snippet[is_global]',true)
+      }
+      else {
+        data.append('magick_pen_snippet[action_name]',this.action)
+        data.append('magick_pen_snippet[controller_name]',this.controller)
+        data.append('magick_pen_snippet[is_global]',false)
+      }
+      xhr.send(data);
+    },
+
+    getVersion: function (key, versionId, completed) {
+      var xhr = new XMLHttpRequest();
+      var url = "<%= magick_pen_snippet_version_path %>"
+      url += "?pen_key=" + key
+      url += "&version_id=" + versionId
+      if (key.slice(0,2) === 'g-') {
+        url += "&is_global=true"
+      }
+      else {
+        url += "&action_name=" + this.action
+        url += "&controller_name=" + this.controller
+        url += "&is_global=false"
+      }
+      xhr.open('GET', url, true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState !== 4 || xhr.status !== 200) {
+
+        }
+        else {
+          var data = JSON.parse(xhr.responseText)
+          if (data.status === 200) {
+            if (completed) {
+              completed(data.snippet)
+            }
+          }
+        }
+      }.bind(this)
+      xhr.send()
+    }
+  }
+</script>
+<%= javascript_pack_tag 'magick_pen_sample' %>
+<%= stylesheet_pack_tag 'magick_pen_sample' %>
