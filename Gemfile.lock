@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    magick-pen (0.1.0)
+    magick_pen (0.1.0)
       paper_trail
       rails (>= 6.0, < 6.2)
 
@@ -145,7 +145,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  magick-pen!
+  magick_pen!
   sqlite3
 
 BUNDLED WITH

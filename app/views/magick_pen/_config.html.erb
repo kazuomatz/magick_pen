@@ -7,48 +7,51 @@
       id: snippet.id,
       pen_key: snippet.pen_key,
       content: snippet.content,
-      versions: (snippet.versions.map { |v| (v.event == "create" || v.event == "update") ? { id:v.id, date: v.created_at} : nil }).compact
+      versions: snippet.versions.map do |version|
+        (version.event == "create" || version.event == "update") ? { id: version.id, date: version.created_at} : nil
+      end.compact
     }
   }
 %>
 
 <script>
-  var magickPenConfig = {
+  if (!Object.assign) {
+    Object.defineProperty(Object, 'assign', {
+      enumerable: false,
+      configurable: true,
+      writable: true,
+      value: function(target) {
+        'use strict';
+        if (target === undefined || target === null) {
+          throw new TypeError('Cannot convert first argument to object');
+        }
+
+        var to = Object(target);
+        for (var i = 1; i < arguments.length; i++) {
+          var nextSource = arguments[i];
+          if (nextSource === undefined || nextSource === null) {
+            continue;
+          }
+          nextSource = Object(nextSource);
+
+          var keysArray = Object.keys(Object(nextSource));
+          for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
+            var nextKey = keysArray[nextIndex];
+            var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
+            if (desc !== undefined && desc.enumerable) {
+              to[nextKey] = nextSource[nextKey];
+            }
+          }
+        }
+        return to;
+      }
+    });
+  }
+  var magickPenConfig = Object.assign ({
     controller: '<%= params[:controller] %>',
     action: '<%= params[:action] %>',
     snippets: <%= raw contents.to_json %>,
     editable: <%= defined?(editable) ? editable : false %>,
-    date_format: 'YYYY/MM/DD HH:mm',
-    select: {
-      class: 'magick-pen-select',
-      label: {
-        version: 'バーション',
-        original: 'オリジナル',
-        current: '最新'
-      }
-    },
-    buttons: {
-      edit: {
-        class: 'btn btn-primary button is-primary',
-        icon: 'fas fa-edit',
-        label: '編集'
-      },
-      update: {
-        class: 'btn btn-primary button is-primary',
-        icon: 'fas fa-upload',
-        label: '更新'
-      },
-      cancel: {
-        class: 'btn btn-secondary button is-light',
-        icon: 'fas fa-ban',
-        label: 'キャンセル'
-      },
-      preview: {
-        class: 'btn btn-primary button is-primary',
-        icon: 'fas fa-eye',
-        label: 'プレビュー'
-      }
-    },
     updateSnippet: function (key, content, originalContent, completed) {
       var xhr = new XMLHttpRequest();
       xhr.open('POST', '<%= magick_pen_snippet_path %>', true)
@@ -126,7 +129,6 @@
       }.bind(this)
       xhr.send()
     }
-  }
+  }, <%= raw MagickPen::Snippet.config.to_json %> )
+
 </script>
-<%= javascript_pack_tag 'magick_pen_sample' %>
-<%= stylesheet_pack_tag 'magick_pen_sample' %>
