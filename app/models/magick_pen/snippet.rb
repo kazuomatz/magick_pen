@@ -23,22 +23,22 @@ class MagickPen::Snippet < ApplicationRecord
           },
           "buttons": {
               "edit": {
-                  "class": "btn btn-primary button is-primary is-small",
+                  "class": "btn btn-primary btn-sm button is-primary is-small",
                   "icon": "fas fa-edit",
                   "label": "編集"
               },
               "update": {
-                  "class": "btn btn-primary button is-primary is-small",
+                  "class": "btn btn-primary btn-sm button is-primary is-small",
                   "icon": "fas fa-upload",
                   "label": "更新"
               },
               "cancel": {
-                  "class": "btn btn-secondary button is-light is-small",
+                  "class": "btn btn-secondary btn-sm button is-light is-small",
                   "icon": "fas fa-times",
                   "label": "取消"
               },
               "preview": {
-                  "class": "btn btn-primary button is-primary is-small",
+                  "class": "btn btn-primary btn-sm button is-primary is-small",
                   "icon": "fas fa-eye",
                   "label": "確認"
               }
