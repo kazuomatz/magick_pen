@@ -16,11 +16,11 @@ Magick Penは、Railsプロジェクトに組み込んで利用できるGemの�
 gem 'magick_pen'
 ```
 
-bundleを更新して、Magick Penのインストールを実行します。
+bundleを更新して、Magick Penのインストールとmaigrationを以下の手順で実行します。
 
 ```bash
 $ bundle
-$ rails g magick_pen:install  
+$ rails g magick_pen:install --with-migrate
 ```
 
 ## 準備
