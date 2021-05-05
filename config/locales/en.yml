@@ -1,0 +1,10 @@
+en:
+  magick_pen:
+    buttons:
+      edit: Edit
+      update: Update
+      preview: Preview
+      cancel: Cancel
+    version: Versions
+    original: Original
+    current: Current

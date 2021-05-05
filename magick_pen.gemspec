@@ -5,9 +5,9 @@ Gem::Specification.new do |spec|
   spec.version     = MagickPen::VERSION
   spec.authors     = ["Kazuo Matsunaga"]
   spec.email       = ["kazuomatz@lifecode.jp"]
-  spec.homepage    = "https://github.com/kazuomatz/magick_pen-pen"
-  spec.summary     = "Summary of Magick::Pen."
-  spec.description = "Description of Magick::Pen."
+  spec.homepage    = "https://github.com/kazuomatz/magick_pen"
+  spec.summary     = "Plug-in that allows you to edit a Web page to direct."
+  spec.description = "The part of the erb file enclosed in <vue-magick-pen> tags can be edited."
   spec.license     = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'

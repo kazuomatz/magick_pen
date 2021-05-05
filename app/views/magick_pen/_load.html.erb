@@ -1,0 +1,7 @@
+<%= render partial: 'magick_pen/config', locals: { editable: editable } %>
+<script>
+  Vue.prototype.$magickPenConfig = magickPenConfig
+  new Vue({
+    el: '<%=  defined?(element) ? element : '#magick-pen' %>',
+  })
+</script>

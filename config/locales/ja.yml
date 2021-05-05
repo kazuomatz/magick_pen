@@ -1,0 +1,10 @@
+ja:
+  magick_pen:
+    buttons:
+      edit: 編集
+      update: 更新
+      preview: 確認
+      cancel: 取消
+    original: オリジナル
+    current: 最新
+    version: バージョン

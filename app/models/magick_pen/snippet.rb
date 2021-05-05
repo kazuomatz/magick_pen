@@ -16,31 +16,31 @@ class MagickPen::Snippet < ApplicationRecord
           "select": {
               "class": "magick-pen-select",
               "label": {
-                  "version": "バーション",
-                  "original": "オリジナル",
-                  "current": "最新"
+                  "version": I18n.t('magick_pen.version'),
+                  "original": I18n.t('magick_pen.original'),
+                  "current": I18n.t('magick_pen.current'),
               }
           },
           "buttons": {
               "edit": {
                   "class": "btn btn-primary btn-sm button is-primary is-small",
                   "icon": "fas fa-edit",
-                  "label": "編集"
+                  "label": I18n.t('magick_pen.buttons.edit')
               },
               "update": {
                   "class": "btn btn-primary btn-sm button is-primary is-small",
                   "icon": "fas fa-upload",
-                  "label": "更新"
+                  "label":I18n.t('magick_pen.buttons.update')
               },
               "cancel": {
                   "class": "btn btn-secondary btn-sm button is-light is-small",
                   "icon": "fas fa-times",
-                  "label": "取消"
+                  "label": I18n.t('magick_pen.buttons.cancel')
               },
               "preview": {
                   "class": "btn btn-primary btn-sm button is-primary is-small",
                   "icon": "fas fa-eye",
-                  "label": "確認"
+                  "label": I18n.t('magick_pen.buttons.preview')
               }
           }
       }
