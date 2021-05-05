@@ -1,7 +1,7 @@
 # Magick Pen
 Plug-in that allows you to edit a Web page to direct. 
 
-<img src="https://user-images.githubusercontent.com/2704723/117098232-dbe10400-ada8-11eb-8d50-e8dd87365a4b.gif".>
+<img src="https://user-images.githubusercontent.com/2704723/117098232-dbe10400-ada8-11eb-8d50-e8dd87365a4b.gif"/>
 
 
 ## Usage
