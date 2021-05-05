@@ -5,7 +5,7 @@ Magick Penは、Railsプロジェクトに組み込んで利用できるGemの�
 
 また、変更内容を履歴管理していますので、過去の内容に戻すことも簡単です。
 
-<!-- img src="https://user-images.githubusercontent.com/2704723/117098232-dbe10400-ada8-11eb-8d50-e8dd87365a4b.gif"/ -->
+<img src="https://user-images.githubusercontent.com/2704723/117098232-dbe10400-ada8-11eb-8d50-e8dd87365a4b.gif"/>
 
 
 ## Installation
