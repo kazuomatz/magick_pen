@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    magick_pen (0.1.0)
+    magick_pen (0.1.1)
       paper_trail
       rails (>= 6.0, < 6.2)
 
