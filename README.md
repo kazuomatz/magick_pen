@@ -41,7 +41,7 @@ nodeモジュールからmagick penのcssを読み込みます。
  */
  ```
 
-#### app/assets/javascript/application.js
+#### app/assets/javascripts/application.js
 
 nodeモジュールからvue.jsと magick penのVueコンポーネントを読み込みます。
 
@@ -149,7 +149,7 @@ module MagickPen
               }
           },
           buttons: {
-              # Button Class - compatible width Bootstrap and  Bulma)
+              # Button Class - compatible with Bootstrap and  Bulma)
               # Icon Class - compatible with Fontawesome 5
               edit: {
                   class: "btn btn-primary btn-sm button is-primary is-small",
