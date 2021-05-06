@@ -2,6 +2,9 @@ require "rails/generators"
 
 module MagickPen
   class InstallGenerator < Rails::Generators::Base
+
+    source_root File.expand_path('../../../../app/models/magick_pen', __FILE__)
+
     class_option "with-migrate", type: :boolean
 
     def start
@@ -21,6 +24,11 @@ module MagickPen
       Dir.chdir(Rails.root) do
         `bundle exec rake magick_pen_engine:install:migrations`
       end
+    end
+
+    def copy_config
+      file = File.join(Rails.root,'app','models','magick_pen', 'config.rb')
+      template 'config.rb', file
     end
 
     def run_migrations

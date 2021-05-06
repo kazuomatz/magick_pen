@@ -1,7 +1,7 @@
 # Magick Pen
 
 Magick Penは、Railsプロジェクトに組み込んで利用できるGemのプラグインです。 
-テンプレートファイル(.erbファイル)の任意の部分を <vue-magick-pen> 〜 </vue-magick-pen> で囲むだけで、Webページから直接変更ができるようになります。
+テンプレートファイル(.erbファイル)の任意の部分を ```<vue-magick-pen> 〜 </vue-magick-pen>``` で囲むだけで、Webページから直接変更ができるようになります。
 
 また、変更内容を履歴管理していますので、過去の内容に戻すことも簡単です。
 
@@ -27,7 +27,7 @@ $ rails g magick_pen:install --with-migrate
 
 ここでは、Rails Sprocketsを使ってアセットコンパイルして利用する方法を説明します。
 
-### app/assets/stylesheets/application.css
+#### app/assets/stylesheets/application.css
 
 nodeモジュールからmagick penのcssを読み込みます。
 
@@ -41,7 +41,7 @@ nodeモジュールからmagick penのcssを読み込みます。
  */
  ```
 
-### app/assets/javascript/application.js
+#### app/assets/javascript/application.js
 
 nodeモジュールからvue.jsと magick penのVueコンポーネントを読み込みます。
 
@@ -56,7 +56,7 @@ nodeモジュールからvue.jsと magick penのVueコンポーネントを読�
  ```
 
 
-### app/views/layouts/application.html.erb
+#### app/views/layouts/application.html.erb
 
 ```html
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -67,7 +67,7 @@ layouts/application.html.erb から application.jsと application.cssを読み�
 
 # ページを作成する
 
-### app/views/xxxxx/index.html.erb
+#### app/views/xxxxx/index.html.erb
 
 任意のコントローラー、アクションを作成し、テンプレートファイルをマークアップします。
 
@@ -97,20 +97,17 @@ layouts/application.html.erb から application.jsと application.cssを読み�
 
 マークアップのルールは以下の通りです。
 - id="magick-pen" で 囲った部分が有効になります。この範囲内であれば、何か所でも Magick Pen を埋め込めます。
-- magick penを埋め込みたい部分を <vue-magick-pen> 〜 </vue-magick-pen> で囲みます。
+- Magick Penを埋め込みたい部分を ```<vue-magick-pen> 〜 </vue-magick-pen>``` で囲みます。
 - この時、キーとなる文字列を pen-key属性に設定して下さい。
 - pen-key は (コントローラー名＋アクション名) のスコープでユニークとなるようにして下さい。別コントローラー、別アクションであれば、同じpen-keyでも別物として扱われます。
-- ページフッターやサイドバーなどサイト全体で共通に扱いたい部分でMagick Penを埋め込みたい場合は、pen-keyにプレフィックス 'g-' を付けて下さい (例：g-snippet-1)。
-- ファイルの最後に  <%= render partial: 'magick_pen/load', locals: { editable: true } %>  を記述します。
+- ページフッターやサイドバーなどサイト全体で共通に扱いたい部分にMagick Penを埋め込みたい場合は、pen-keyにプレフィックス 'g-' を付けて下さい (例：g-snippet-1)。
+- ファイルの最後に  ```<%= render partial: 'magick_pen/load', locals: { editable: true } %>```  を記述します。
 - editableが falseであれば、何もなかったように普通にページが表示されます。trueであれば編集可能になります。ユーザー権限などに応じてeditableの値をコントロールして下さい。
 - id="magick-pen" の値を変更したい場合は、'magick_pen/load' の locals に、elementを渡すことができます。
 
 ```html
 <div id="page">
-    :
-    :
-    :
-    
+    <!- your markup -->
 </div>
 <%= render partial: 'magick_pen/load', locals: { editable: true, element: '#page" } %>
 ```
@@ -131,13 +128,56 @@ Magick Penは多言語対応になっていますので、ボタン名に日本�
 
 # デザインの適用
 
-FontAwesome 5 を導入することをお奨めします。FontAwesomeが利用できる環境であればそのままボタン等にアイコンが表示されます。
+[FontAwesome 5](https://fontawesome.com) を導入することをお奨めします。FontAwesomeが利用できる環境であればそのままボタン等にアイコンが表示されます。
 
-Bootstrap 4、または、Bulma を適用した場合は、各CSSフレームワークのデザインに準じて表示されます。独自デザインを適用する場合は、CSSの調整が必要になります。
+[Bootstrap 4](https://getbootstrap.com/docs/4.6/getting-started/introduction/) 、または、[Bulma](https://bulma.io) を採用している場合は、各CSSフレームワークのデザインに準じて表示されます。独自デザインを適用する場合はCSSの調整が必要になります。
 
-gemバンドル内の magick_pen/app/models/magick_pen/snippet.rb を プロジェクトにコピーして適宜変更をして下さい。snippet.rbには、
-Magick Pen内で使用するボタンのクラス名やラベル名、アイコンのクラス名が定義されています。
+デザインを修正するには、app/magick_pen/config.rb を適宜変更をして下さい。config.rbには、 Magick Pen内で使用するボタンのクラス名やラベル名、アイコンのクラス名が定義されています。
 
+```ruby
+module MagickPen
+  class Config
+    def self.default
+      {
+          date_format: "YYYY/MM/DD HH:mm",
+          select: {
+              class: "magick-pen-select",
+              label: {
+                  version: I18n.t('magick_pen.version'),
+                  original: I18n.t('magick_pen.original'),
+                  current: I18n.t('magick_pen.current'),
+              }
+          },
+          buttons: {
+              # Button Class - compatible width Bootstrap and  Bulma)
+              # Icon Class - compatible with Fontawesome 5
+              edit: {
+                  class: "btn btn-primary btn-sm button is-primary is-small",
+                  icon: "fas fa-edit",
+                  label: I18n.t('magick_pen.buttons.edit')
+              },
+              update: {
+                  class: "btn btn-primary btn-sm button is-primary is-small",
+                  icon: "fas fa-upload",
+                  label:I18n.t('magick_pen.buttons.update')
+              },
+              cancel: {
+                  class: "btn btn-secondary btn-sm button is-light is-small",
+                  icon: "fas fa-times",
+                  label: I18n.t('magick_pen.buttons.cancel')
+              },
+              preview: {
+                  class: "btn btn-primary btn-sm button is-primary is-small",
+                  icon: "fas fa-eye",
+                  label: I18n.t('magick_pen.buttons.preview')
+              }
+          }
+      }
+    end
+  end
+end
+
+```
 
 
 # サンプルプロジェクト
