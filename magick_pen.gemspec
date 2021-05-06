@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.metadata["changelog_uri"] = spec.homepage
 
   spec.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
-
-  spec.add_dependency 'rails', '>= 6.0', '<6.2'
+  spec.required_ruby_version = '>= 2.6'
+  spec.add_dependency 'rails', '>= 6.0', '< 6.2'
   spec.add_dependency 'paper_trail'
 end
